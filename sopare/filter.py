@@ -127,24 +127,24 @@ class filtering():
             normalized = self.normalize(chunked_norm)
         characteristic = self.characteristic.getcharacteristic(fft, normalized, meta)
 
-        if (shift_fft != None and self.cfg.hasoption('experimental', 'FFT_SHIFT') and self.cfg.getbool('experimental', 'FFT_SHIFT') == True):
-            shift_fft[self.cfg.getintoption('characteristic', 'HIGH_FREQ'):] = 0
-            shift_fft[:self.cfg.getintoption('characteristic', 'LOW_FREQ')] = 0
-            shift_data = numpy.fft.irfft(shift_fft)
-            shift_nfft = fft[self.cfg.getintoption('characteristic', 'LOW_FREQ'):self.cfg.getintoption('characteristic', 'HIGH_FREQ')]
-            shift_nfft = numpy.abs(nfft)
-            shift_nfft[nfft == 0] = numpy.NaN
-            shift_nfft = numpy.log10(nfft)**2
-            shift_nfft[numpy.isnan(shift_nfft)] = 0
-            shift_nam = numpy.amax(shift_nfft)
-            shift_normalized = [0]
-            if (shift_nam > 0):
-                shift_nfft = numpy.tanh(shift_nfft/shift_nam)
-                shift_chunked_norm = self.get_chunked_norm(shift_nfft)
-                shift_normalized = self.normalize(shift_chunked_norm)
+        #if (shift_fft != None and self.cfg.hasoption('experimental', 'FFT_SHIFT') and self.cfg.getbool('experimental', 'FFT_SHIFT') == True):
+         #   shift_fft[self.cfg.getintoption('characteristic', 'HIGH_FREQ'):] = 0
+         #   shift_fft[:self.cfg.getintoption('characteristic', 'LOW_FREQ')] = 0
+         #   shift_data = numpy.fft.irfft(shift_fft)
+         #   shift_nfft = fft[self.cfg.getintoption('characteristic', 'LOW_FREQ'):self.cfg.getintoption('characteristic', 'HIGH_FREQ')]
+         #   shift_nfft = numpy.abs(nfft)
+         #   shift_nfft[nfft == 0] = numpy.NaN
+         #   shift_nfft = numpy.log10(nfft)**2
+         #   shift_nfft[numpy.isnan(shift_nfft)] = 0
+         #   shift_nam = numpy.amax(shift_nfft)
+         #   shift_normalized = [0]
+         #   if (shift_nam > 0):
+         #       shift_nfft = numpy.tanh(shift_nfft/shift_nam)
+         #       shift_chunked_norm = self.get_chunked_norm(shift_nfft)
+         #       shift_normalized = self.normalize(shift_chunked_norm)
             # TODO: Do some shift meta magic!
-            shift_characteristic = self.characteristic.getcharacteristic(shift_fft, shift_normalized, meta)
-            characteristic['shift'] = shift_characteristic
+         #   shift_characteristic = self.characteristic.getcharacteristic(shift_fft, shift_normalized, meta)
+         #   characteristic['shift'] = shift_characteristic
 
         obj = { 'action': 'data', 'token': data, 'fft': fft, 'norm': normalized, 'meta': meta, 'characteristic': characteristic }
         self.queue.put(obj)
